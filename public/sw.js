@@ -11,7 +11,9 @@ this.addEventListener("install", (event) => {
         "/static/js/bundle.js",
         "/static/css/main.chunk.css",
         "/main.c45fd41e.css",
+        "/static/js/main.eadae8db.js",
         "/static/js/dom.js",
+        "/sw.js",
         "/index.html",
         "/",
       ]);
