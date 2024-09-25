@@ -18,28 +18,28 @@ function EditTaskPopup({ editTask, setEditTask, setIsEditing, updateTask }) {
             className="w-full px-3 py-2 border mb-4"
             value={editTask.time}
             placeholder="Enter Time to update"
-            onChange={handleInputChange("newTime")} // Update specific field
+            onChange={handleInputChange("newTime")}
           />
           <input
             type="date"
             className="w-full px-3 py-2 border mb-4"
             value={editTask.date}
             placeholder="Enter date to update"
-            onChange={handleInputChange("newDate")} // Update specific field
+            onChange={handleInputChange("newDate")}
           />
           <input
             type="text"
             placeholder="Enter Category to Update"
             className="w-full px-3 py-2 border mb-4"
             value={editTask.category}
-            onChange={handleInputChange("category")} // Update specific field
+            onChange={handleInputChange("category")}
           />
           <input
             type="text"
             placeholder="Enter Todo To Update"
             className="w-full px-3 py-2 border mb-4"
             value={editTask.message}
-            onChange={handleInputChange("message")} // Update specific field
+            onChange={handleInputChange("message")}
           />
           <div className="flex justify-end">
             <button

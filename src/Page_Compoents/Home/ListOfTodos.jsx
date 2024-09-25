@@ -132,7 +132,6 @@ function ListOfTodos() {
           To-Do List
         </h1>
 
-        {/* Input to add new tasks */}
         <div className="flex flex-wrap gap-y-2 md:flex-nowrap mb-4 gap-x-2">
           <input
             type="time"
