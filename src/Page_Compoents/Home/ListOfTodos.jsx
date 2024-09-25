@@ -132,7 +132,7 @@ function ListOfTodos() {
           To-Do List
         </h1>
 
-        <div className="flex flex-wrap gap-y-2 md:flex-nowrap mb-4 gap-x-2">
+        <div className="flex flex-wrap gap-y-4 my-12 gap-x-4">
           <input
             type="time"
             className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
@@ -142,28 +142,28 @@ function ListOfTodos() {
           />
           <input
             type="date"
-            className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
+            className="w-full md:w-auto flex-1 max-md:flex-2 px-3 py-2 border rounded-md"
             placeholder="Add a new task..."
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
           />
           <input
             type="text"
-            className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
+            className="w-full md:w-auto flex-1 px-3 py-2 max-md:flex-2 border rounded-md"
             placeholder="Enter Category..."
             value={Category}
             onChange={(e) => setCategory(e.target.value)}
           />
           <input
             type="text"
-            className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
+            className="w-full md:w-auto flex-1 px-3 py-2 max-md:flex-2 border rounded-md"
             placeholder="Add a new task..."
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
           />
           <button
             onClick={addTask}
-            className="w-full md:w-auto px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+            className="w-full md:w-auto px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 "
           >
             Add
           </button>
