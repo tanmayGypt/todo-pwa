@@ -15,6 +15,7 @@ this.addEventListener("install", (event) => {
         "/static/js/dom.js",
         "/sw.js",
         "/index.html",
+        "https://jovial-alpaca-1d7c97.netlify.app/",
         "/",
       ]);
     })
