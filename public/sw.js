@@ -20,22 +20,22 @@ this.addEventListener("install", (event) => {
 });
 
 this.addEventListener("fetch", (event) => {
-  event.respondWith(
-    (async () => {
-      try {
-        const networkResponse = await fetch(event.request);
-        console.log("Fetched from network:", event.request.url);
-        if (networkResponse.ok) {
-          const cache = await caches.open(cacheData);
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        } else {
-          return await caches.match(event.request);
+  if (!navigator.onLine) {
+    if (event.request.url === "http://localhost:3000/static/js/main.chunk.js") {
+      event.waitUntil(
+        this.registration.showNotification("Internet", {
+          body: "internet not working",
+        })
+      );
+    }
+    event.respondWith(
+      caches.match(event.request).then((resp) => {
+        if (resp) {
+          return resp;
         }
-      } catch (error) {
-        console.error("Fetch error:", error);
-        return await caches.match(event.request);
-      }
-    })()
-  );
+        let requestUrl = event.request.clone();
+        fetch(requestUrl);
+      })
+    );
+  }
 });

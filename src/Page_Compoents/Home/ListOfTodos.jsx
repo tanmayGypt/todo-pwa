@@ -57,13 +57,13 @@ function ListOfTodos() {
 
   const updateLocalStorage = (updatedTasks) => {
     localStorage.setItem("Fetched_Todos", JSON.stringify(updatedTasks));
+    setTasks(JSON.parse(localStorage.getItem("Fetched_Todos")));
     console.log(JSON.parse(localStorage.getItem("Fetched_Todos")));
   };
 
   const addTask = () => {
     if (newTask.trim() !== "") {
       const task = {
-        id: tasks.length + 1, // Consider using a unique ID system instead of relying on length
         message: newTask,
         date: newDate,
         time: newTime,
@@ -79,7 +79,7 @@ function ListOfTodos() {
       setNewTime("");
       setNewDate("");
 
-      createData(task); // Send the created task to the backend
+      createData(task);
     }
   };
 
@@ -101,8 +101,8 @@ function ListOfTodos() {
           }
         : task
     );
-    updateLocalStorage(updatedTasks); // Update local storage
-    updateTodoById(editTask.id, editTask); // Send the updated task to the backend
+    updateLocalStorage(updatedTasks);
+    updateTodoById(editTask.id, editTask);
     setTasks(updatedTasks);
 
     setIsEditing(false);
@@ -122,7 +122,7 @@ function ListOfTodos() {
     setShowDeleteConfirm(false);
     setDeleteIndex(null);
 
-    deleteTodoById(tasks[deleteIndex].id); // Send the delete request to the backend
+    deleteTodoById(tasks[deleteIndex].id);
   };
 
   return (
@@ -173,7 +173,7 @@ function ListOfTodos() {
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-200">
-              <th className="px-4 py-2">#</th>
+              <th className="px-4 py-2">S.No</th>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Time</th>
               <th className="px-4 py-2">Task</th>
