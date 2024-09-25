@@ -7,13 +7,12 @@ import updateTodoById from "./TodoUpdator";
 import createData from "./TodoCreator";
 import deleteTodoById from "./TodoDeletor";
 import PendingTasksCompletor from "./PendingTaskCompletor";
+
 function ListOfTodos() {
   const [tasks, setTasks] = useState([]);
   const [Category, setCategory] = useState("Default");
-  const [newDate, setnewDate] = useState("");
-  const [newTime, setnewTime] = useState("");
-  //   const [CategoryList, setCategoryList] = useState([]);
-
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
   const [newTask, setNewTask] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editTask, setEditTask] = useState("");
@@ -22,22 +21,17 @@ function ListOfTodos() {
   const [deleteIndex, setDeleteIndex] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("Fetched_Todos", JSON.stringify(tasks));
     const fetchTodos = async () => {
       try {
-        let Fetched_Todos = await axios.get(
+        let fetchedTodos = await axios.get(
           "https://master-sawfly-85.hasura.app/api/rest/Todo_Table"
         );
 
-        const todos = Fetched_Todos.data.Todo_Table;
+        const todos = fetchedTodos.data.Todo_Table;
 
         if (todos && Array.isArray(todos)) {
           setTasks(todos);
           localStorage.setItem("Fetched_Todos", JSON.stringify(todos));
-          console.log(
-            "Local Storage todos:",
-            localStorage.getItem("Fetched_Todos")
-          );
         } else {
           console.log("Fetched data is not valid.");
         }
@@ -56,13 +50,20 @@ function ListOfTodos() {
         }
       }
     };
+
     fetchTodos();
     PendingTasksCompletor();
-  }, [tasks]);
+  }, []);
+
+  const updateLocalStorage = (updatedTasks) => {
+    localStorage.setItem("Fetched_Todos", JSON.stringify(updatedTasks));
+    console.log(JSON.parse(localStorage.getItem("Fetched_Todos")));
+  };
+
   const addTask = () => {
     if (newTask.trim() !== "") {
       const task = {
-        id: tasks.length + 1,
+        id: tasks.length + 1, // Consider using a unique ID system instead of relying on length
         message: newTask,
         date: newDate,
         time: newTime,
@@ -70,20 +71,15 @@ function ListOfTodos() {
       };
 
       const updatedTasks = [...tasks, task];
-      setTasks(updatedTasks);
-      localStorage.setItem("Fetched_Todos", JSON.stringify(updatedTasks));
 
+      updateLocalStorage(updatedTasks);
+      setTasks(updatedTasks);
       setNewTask("");
       setCategory("");
-      setnewTime("");
-      setnewDate("");
+      setNewTime("");
+      setNewDate("");
 
-      createData({
-        message: newTask,
-        date: newDate,
-        time: newTime,
-        category: Category,
-      });
+      createData(task); // Send the created task to the backend
     }
   };
 
@@ -98,7 +94,6 @@ function ListOfTodos() {
       i === editIndex
         ? {
             ...task,
-            id: editTask.id,
             message: editTask.message,
             date: editTask.newDate,
             time: editTask.newTime,
@@ -106,8 +101,8 @@ function ListOfTodos() {
           }
         : task
     );
-
-    updateTodoById(editTask.id, editTask);
+    updateLocalStorage(updatedTasks); // Update local storage
+    updateTodoById(editTask.id, editTask); // Send the updated task to the backend
     setTasks(updatedTasks);
 
     setIsEditing(false);
@@ -118,15 +113,16 @@ function ListOfTodos() {
   const handleDelete = (index) => {
     setShowDeleteConfirm(true);
     setDeleteIndex(index);
-    deleteTodoById(tasks[index].id);
   };
 
   const confirmDelete = () => {
     const updatedTasks = tasks.filter((_, i) => i !== deleteIndex);
-    // localStorage.setItem("Fetched_Todos", JSON.stringify(updatedTasks));
+    updateLocalStorage(updatedTasks);
     setTasks(updatedTasks);
     setShowDeleteConfirm(false);
     setDeleteIndex(null);
+
+    deleteTodoById(tasks[deleteIndex].id); // Send the delete request to the backend
   };
 
   return (
@@ -143,14 +139,14 @@ function ListOfTodos() {
             className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
             placeholder="Add a new task..."
             value={newTime}
-            onChange={(e) => setnewTime(e.target.value)}
+            onChange={(e) => setNewTime(e.target.value)}
           />
           <input
             type="date"
             className="w-full md:w-auto flex-1 px-3 py-2 border rounded-md"
             placeholder="Add a new task..."
             value={newDate}
-            onChange={(e) => setnewDate(e.target.value)}
+            onChange={(e) => setNewDate(e.target.value)}
           />
           <input
             type="text"
